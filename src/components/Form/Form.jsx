@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { connect } from "react-redux";
 import {ContactForm, Button, Label, Input} from './Form.styled.js'
+import { addContact } from "../../redux/contacts/contacts-action.js";
 
-export default function Form({onSubmit, contacts}) {
+export function Form({onSubmit, contacts}) {
 const [name, setName] = useState('');
 const [number, setNumber] = useState('');
 
@@ -28,7 +30,7 @@ const handleSubmit = (e) => {
         return;
     };
 
-    onSubmit(name, number);
+    // onSubmit(name, number);
     reset();
 };
 
@@ -49,7 +51,6 @@ return(
     value={name}
     onChange={handleInputName}
     required  
-    // id={nameInputId}
     />
     </Label>
 
@@ -63,7 +64,6 @@ return(
     required
     value={number}
     onChange={handleInputName}
-    // id={numberInputId}
     />
     </Label>
 
@@ -71,3 +71,15 @@ return(
     </ContactForm>
 );
 }
+
+const mapStateToProps = ({contacts}) => {
+    return {contacts};
+};
+
+const mapDispatchToProps = (dispatch) => {
+return {
+    onSubmit: (name, number) => dispatch(addContact(name, number))
+};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form);
