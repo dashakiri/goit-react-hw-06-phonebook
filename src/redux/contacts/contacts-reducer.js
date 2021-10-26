@@ -27,7 +27,7 @@ export const filterReducer = (
   { type, payload },
 ) => {
   switch (type) {
-    case 'filterContact':
+    case 'filterContacts':
       return payload;
     default:
       return state;

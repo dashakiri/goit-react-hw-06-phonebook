@@ -1,9 +1,13 @@
 import { useState } from "react";
-import { connect } from "react-redux";
-import {ContactForm, Button, Label, Input} from './Form.styled.js'
 import { addContact } from "../../redux/contacts/contacts-action.js";
+import {getContacts} from "../../redux/contacts/contacts-selectors";
+import { useSelector, useDispatch } from "react-redux";
+import {ContactForm, Button, Label, Input} from './Form.styled.js';
 
-export function Form({onSubmit, contacts}) {
+export default function Form() {
+
+const contacts = useSelector(getContacts);
+const dispatch = useDispatch();
 const [name, setName] = useState('');
 const [number, setNumber] = useState('');
 
@@ -30,7 +34,7 @@ const handleSubmit = (e) => {
         return;
     };
 
-    // onSubmit(name, number);
+    dispatch(addContact(name, number))
     reset();
 };
 
@@ -71,15 +75,3 @@ return(
     </ContactForm>
 );
 }
-
-const mapStateToProps = ({contacts}) => {
-    return {contacts};
-};
-
-const mapDispatchToProps = (dispatch) => {
-return {
-    onSubmit: (name, number) => dispatch(addContact(name, number))
-};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
